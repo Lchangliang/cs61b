@@ -82,7 +82,22 @@ public class IntList {
 
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        IntList cur = A;
+        while (cur.rest != null) {
+            cur = cur.rest;
+        }
+        cur.rest = B;
+        return A;
+    }
+
+    /**
+     * Returns a list copy from L. Non-destructive.
+     */
+    public static IntList copyListRecursive(IntList L) {
+        if (L == null) {
+            return null;
+        }
+        return new IntList(L.first, copyListRecursive(L.rest));
     }
 
     /**
@@ -91,7 +106,13 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        IntList newList = copyListRecursive(A);
+        IntList cur = newList;
+        while (cur.rest != null) {
+            cur = cur.rest;
+        }
+        cur.rest = copyListRecursive(B);
+        return newList;
     }
 
 
