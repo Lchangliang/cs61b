@@ -7,7 +7,7 @@ public class Planet {
     public double yyVel;
     public double mass;
     public String imgFileName;
-    public static final double G = 6.67e-11;
+    private static final double G = 6.67e-11;
     public Planet(double xP, double yP, double xV,
                   double yV, double m, String img) {
         this.xxPos = xP;
@@ -83,16 +83,10 @@ public class Planet {
         StdDraw.picture(this.xxPos, this.yyPos, "images/" + this.imgFileName);
     }
 
-    @Override
-    public boolean equals(Object o) {
+    private boolean equals(Planet o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Planet body = (Planet) o;
-        return Double.compare(body.xxPos, xxPos) == 0 && Double.compare(body.yyPos, yyPos) == 0 && Double.compare(body.xxVel, xxVel) == 0 && Double.compare(body.yyVel, yyVel) == 0 && Double.compare(body.mass, mass) == 0 && Objects.equals(imgFileName, body.imgFileName);
+        return Double.compare(o.xxPos, xxPos) == 0 && Double.compare(o.yyPos, yyPos) == 0 && Double.compare(o.xxVel, xxVel) == 0 && Double.compare(o.yyVel, yyVel) == 0 && Double.compare(o.mass, mass) == 0 && Objects.equals(imgFileName, o.imgFileName);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(xxPos, yyPos, xxVel, yyVel, mass, imgFileName);
-    }
 }
