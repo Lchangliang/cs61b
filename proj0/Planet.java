@@ -85,7 +85,7 @@ public class Planet {
 
     private boolean equals(Planet o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
         return Double.compare(o.xxPos, xxPos) == 0 && Double.compare(o.yyPos, yyPos) == 0 && Double.compare(o.xxVel, xxVel) == 0 && Double.compare(o.yyVel, yyVel) == 0 && Double.compare(o.mass, mass) == 0 && Objects.equals(imgFileName, o.imgFileName);
     }
 
