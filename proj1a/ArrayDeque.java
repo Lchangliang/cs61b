@@ -7,7 +7,7 @@ public class ArrayDeque<T> {
     private int nextLast;
 
     public ArrayDeque() {
-        this.capacity = 8;
+        this.capacity = 16;
         items = (T[]) new Object[this.capacity];
         length = 0;
         nextFirst = capacity / 2;
@@ -36,12 +36,12 @@ public class ArrayDeque<T> {
     }
 
     private void expandCapacity() {
-        int newCapacity = this.capacity * 2;
+        int newCapacity = this.capacity * 4;
         update(newCapacity);
     }
 
     private void reduceCapacity() {
-        int newCapacity = this.capacity / 2;
+        int newCapacity = this.capacity / 4;
         update(newCapacity);
     }
 
@@ -106,7 +106,7 @@ public class ArrayDeque<T> {
         }
         length--;
         T result = items[nextFirst];
-        if (capacity > 8 && length <= capacity / 2) {
+        if (capacity > 16 && length <= capacity / 4) {
             reduceCapacity();
         }
         return result;
@@ -123,7 +123,7 @@ public class ArrayDeque<T> {
         }
         length--;
         T result = items[nextLast];
-        if (capacity > 8 && length <= capacity / 2) {
+        if (capacity > 16 && length <= capacity / 4) {
             reduceCapacity();
         }
         return result;
