@@ -18,8 +18,13 @@ public class ArrayDeque<T> {
         T[] newItems = (T[]) new Object[newCapacity];
         int newNextFirst = newCapacity / 2;
         int newNextLast = newCapacity / 2 + 1;
+        int curIndex = nextFirst;
         for (int i = 0; i < length; i++) {
-            newItems[newNextLast++] = get(i);
+            curIndex++;
+            if (curIndex == this.capacity) {
+                curIndex = 0;
+            }
+            newItems[newNextLast++] = items[curIndex];
             if (newNextLast == newCapacity) {
                 newNextLast = 0;
             }
