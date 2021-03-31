@@ -112,14 +112,14 @@ public class LinkedListDeque<T> {
         return cur.item;
     }
 
-    public T getRecursive(Node node, int index) {
+    private T getRecursive(Node node, int index) {
         if (node == head && index >= 0) {
             return null;
         }
         if (index == 0) {
             return node.item;
         }
-        return getRecursive(node.next, index-1);
+        return getRecursive(node.next, index - 1);
     }
 
     public T getRecursive(int index) {

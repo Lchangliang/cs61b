@@ -1,5 +1,14 @@
 /** Performs some basic array list tests. */
 public class ArrayDequeTest {
+
+    public static boolean checkInt(Integer expected, Integer actual) {
+        if (!expected.equals(actual)) {
+            System.out.println("returned " + actual + ", but expected: " + expected);
+            return false;
+        }
+        return true;
+    }
+
     /* Utility method for printing out empty checks. */
     public static boolean checkEmpty(boolean expected, boolean actual) {
         if (expected != actual) {
@@ -34,7 +43,6 @@ public class ArrayDequeTest {
      * && is the "and" operation. */
     public static void addIsEmptySizeTest() {
         System.out.println("Running add/isEmpty/Size test.");
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
 
         ArrayDeque<String> lld1 = new ArrayDeque<String>();
 
@@ -65,8 +73,6 @@ public class ArrayDequeTest {
 
         System.out.println("Running add/remove test.");
 
-        System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
-
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
         // should be empty
         boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -83,9 +89,58 @@ public class ArrayDequeTest {
 
     }
 
+    public static void expendAndReduceTest() {
+        System.out.println("Running expendCapacity/reduceCapacity test.");
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        lld1.addLast(0);
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+        lld1.addLast(4);
+        lld1.addLast(5);
+        lld1.addLast(6);
+        lld1.addLast(7);
+        lld1.addLast(8);
+        lld1.addLast(9);
+        lld1.addLast(10);
+        boolean passed = checkInt(10, lld1.removeLast());
+
+        ArrayDeque<Integer> lld2 = new ArrayDeque<Integer>();
+        lld2.addFirst(0);
+        lld2.addFirst(1);
+        lld2.addFirst(2);
+        lld2.addFirst(3);
+        lld2.addFirst(4);
+        lld2.addFirst(5);
+        lld2.addFirst(6);
+        lld2.addFirst(7);
+        lld2.addFirst(8);
+        lld2.addFirst(9);
+        lld2.addFirst(10);
+        passed = checkInt(0, lld2.removeLast()) && passed;
+
+        passed = checkInt(10, lld2.removeFirst()) && passed;
+        passed = checkInt(9, lld2.removeFirst()) && passed;
+        passed = checkInt(8, lld2.removeFirst()) && passed;
+        passed = checkInt(7, lld2.removeFirst()) && passed;
+        passed = checkInt(6, lld2.removeFirst()) && passed;
+        passed = checkInt(5, lld2.removeFirst()) && passed;
+        passed = checkInt(4, lld2.removeFirst()) && passed;
+        passed = checkInt(1, lld2.removeLast()) && passed;
+        passed = checkInt(2, lld2.removeLast()) && passed;
+        passed = checkInt(3, lld2.removeLast()) && passed;
+        passed = checkEmpty(true, lld2.isEmpty());
+
+        passed = (lld2.removeLast() == null) && passed;
+        passed = (lld2.removeFirst() == null) && passed;
+
+        printTestStatus(passed);
+    }
+
     public static void main(String[] args) {
         System.out.println("Running tests.\n");
-        addIsEmptySizeTest();
-        addRemoveTest();
+//        addIsEmptySizeTest();
+//        addRemoveTest();
+        expendAndReduceTest();
     }
 }

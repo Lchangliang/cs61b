@@ -1,31 +1,43 @@
-import java.util.Objects;
-
 public class ArrayDeque<T> {
 
-    int capacity;
-    int length;
-    T[] items;
-    int nextFirst;
-    int nextLast;
+    private int capacity;
+    private int length;
+    private T[] items;
+    private int nextFirst;
+    private int nextLast;
 
-    public ArrayDeque(int capacity) {
-        this.capacity = capacity;
+    public ArrayDeque() {
+        this.capacity = 8;
         items = (T[]) new Object[this.capacity];
         length = 0;
         nextFirst = capacity / 2;
         nextLast = capacity / 2 + 1;
     }
 
-    public ArrayDeque() {
-        this(8);
+    private void update(int newCapacity) {
+        T[] newItems = (T[]) new Object[newCapacity];
+        int newNextFirst = newCapacity / 2;
+        int newNextLast = newCapacity / 2 + 1;
+        for (int i = 0; i < length; i++) {
+            newItems[newNextLast++] = get(i);
+            if (newNextLast == newCapacity) {
+                newNextLast = 0;
+            }
+        }
+        this.items = newItems;
+        this.capacity = newCapacity;
+        this.nextFirst = newNextFirst;
+        this.nextLast = newNextLast;
     }
 
     private void expandCapacity() {
-
+        int newCapacity = this.capacity * 2;
+        update(newCapacity);
     }
 
     private void reduceCapacity() {
-
+        int newCapacity = this.capacity / 2;
+        update(newCapacity);
     }
 
     /* Adds an item of type T to the front of the deque. */
@@ -35,7 +47,7 @@ public class ArrayDeque<T> {
         }
         items[nextFirst--] = item;
         length++;
-        if (nextFirst == 0) {
+        if (nextFirst == -1) {
             nextFirst = capacity - 1;
         }
     }
@@ -89,7 +101,7 @@ public class ArrayDeque<T> {
         }
         length--;
         T result = items[nextFirst];
-        if (length <= capacity / 2) {
+        if (capacity > 8 && length <= capacity / 2) {
             reduceCapacity();
         }
         return result;
@@ -105,8 +117,8 @@ public class ArrayDeque<T> {
             nextLast = capacity - 1;
         }
         length--;
-        T result = items[nextFirst];
-        if (length <= capacity / 2) {
+        T result = items[nextLast];
+        if (capacity > 8 && length <= capacity / 2) {
             reduceCapacity();
         }
         return result;
