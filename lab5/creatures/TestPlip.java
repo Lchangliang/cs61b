@@ -32,10 +32,14 @@ public class TestPlip {
 
     @Test
     public void testReplicate() {
-        // TODO
+        Plip p = new Plip(2);
+        Plip c = p.replicate();
+        assertEquals(1, p.energy(), 0.01);
+        assertEquals(1, c.energy(), 0.01);
+        assertNotEquals(p, c);
     }
 
-    //@Test
+    @Test
     public void testChoose() {
 
         // No empty adjacent spaces; stay.
@@ -99,5 +103,16 @@ public class TestPlip {
 
 
         // We don't have Cloruses yet, so we can't test behavior for when they are nearby right now.
+        p = new Plip(.99);
+        HashMap<Direction, Occupant> threeClorus = new HashMap<Direction, Occupant>();
+        threeClorus.put(Direction.TOP, new Clorus(2));
+        threeClorus.put(Direction.BOTTOM, new Clorus(2));
+        threeClorus.put(Direction.LEFT, new Clorus(2));
+        threeClorus.put(Direction.RIGHT, new Empty());
+        actual = p.chooseAction(threeClorus);
+        expected = new Action(Action.ActionType.MOVE, Direction.RIGHT);
+        if (actual.type != Action.ActionType.STAY) {
+            assertEquals(expected, actual);
+        }
     }
 }
