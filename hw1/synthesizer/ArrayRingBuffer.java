@@ -67,19 +67,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         }
         return rb[first];
     }
-    /**
-     *  Return size of the buffer
-     */
-    public int capacity() {
-        return capacity;
-    }
-
-    /**
-     *  Return number of items currently in the buffer
-     */
-    public int fillCount() {
-        return fillCount;
-    }
 
     private class ArrayRingBUfferIterator implements Iterator<T> {
         private int count;
@@ -97,33 +84,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
     public Iterator<T> iterator() {
         return new ArrayRingBUfferIterator();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ArrayRingBuffer<?> that = (ArrayRingBuffer<?>) o;
-        if (fillCount != that.fillCount) {
-            return false;
-        }
-        Iterator<T> thisIterator = this.iterator();
-        Iterator<?> otherIterator = that.iterator();
-        while (thisIterator.hasNext()) {
-            T thisValue = thisIterator.next();
-            T otherValue = (T) otherIterator.next();
-            if (!thisValue.equals(otherValue)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(first, last, fillCount);
-        result = 31 * result + Arrays.hashCode(rb);
-        return result;
     }
 }
 

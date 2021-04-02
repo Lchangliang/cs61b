@@ -57,34 +57,4 @@ public class TestArrayRingBuffer {
             assertTrue(true);
         }
     }
-
-    @Test
-    public void testEquals() {
-        ArrayRingBuffer<Integer> expect = new ArrayRingBuffer<Integer>(5);
-        expect.enqueue(1);
-        expect.enqueue(2);
-        expect.enqueue(3);
-        expect.enqueue(4);
-        expect.enqueue(5);
-        ArrayRingBuffer<Integer> actual1 = new ArrayRingBuffer<Integer>(5);
-        actual1.enqueue(1);
-        actual1.enqueue(2);
-        actual1.enqueue(3);
-        actual1.enqueue(4);
-        ArrayRingBuffer<Integer> actual2 = new ArrayRingBuffer<Integer>(5);
-        actual2.enqueue(1);
-        actual2.enqueue(2);
-        actual2.enqueue(3);
-        actual2.enqueue(4);
-        actual2.enqueue(6);
-        ArrayRingBuffer<Integer> actual3 = new ArrayRingBuffer<Integer>(5);
-        actual3.enqueue(1);
-        actual3.enqueue(2);
-        actual3.enqueue(3);
-        actual3.enqueue(4);
-        actual3.enqueue(5);
-        assertNotEquals(expect, actual1);
-        assertNotEquals(expect, actual2);
-        assertEquals(expect, actual3);
-    }
 }
