@@ -69,6 +69,10 @@ public class UnionFind {
     }
 
     public static void main(String[] args) {
+        /* 使用Java Visualizer
+         * 和 https://www.cs.usfca.edu/~galles/visualization/DisjointSets.html
+         * 来自行校验
+         */
         UnionFind uf = new UnionFind(16);
         uf.union(0, 1);
         uf.union(1, 2);
