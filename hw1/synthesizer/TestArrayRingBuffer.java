@@ -34,6 +34,11 @@ public class TestArrayRingBuffer {
             assertEquals(i, actual);
             i++;
         }
+        i = 1;
+        for (Integer value : arb) {
+            assertEquals(i, value);
+            i++;
+        }
         arb.dequeue();
         arb.dequeue();
         arb.dequeue();

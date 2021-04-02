@@ -1,8 +1,7 @@
 package es.datastructur.synthesizer;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Objects;
-
+import java.util.Iterator;
 public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;
