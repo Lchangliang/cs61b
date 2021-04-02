@@ -1,11 +1,13 @@
 package es.datastructur.synthesizer;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 
 //TODO: Make sure to that this class and all of its methods are public
 //TODO: Make sure to add the override tag for all overridden methods
 //TODO: Make sure to make this class implement BoundedQueue<T>
 
-public class ArrayRingBuffer<T>  {
+public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;
     /* Index for the next enqueue. */
@@ -21,15 +23,24 @@ public class ArrayRingBuffer<T>  {
     public ArrayRingBuffer(int capacity) {
         // TODO: Create new array with capacity elements.
         //       first, last, and fillCount should all be set to 0.
+        rb = (T[]) new Object[capacity];
+        first = last = fillCount = 0;
     }
 
     /**
      * Adds x to the end of the ring buffer. If there is no room, then
      * throw new RuntimeException("Ring buffer overflow").
      */
+    @Override
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update
-        //       last.
+        if (isFull()) {
+            throw new RuntimeException("Ring buffer overflow");
+        }
+        rb[last++] = x;
+        if (last == rb.length) {
+            last = 0;
+        }
+        fillCount++;
         return;
     }
 
@@ -37,23 +48,87 @@ public class ArrayRingBuffer<T>  {
      * Dequeue oldest item in the ring buffer. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow").
      */
+    @Override
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and
-        //       update first.
-        return null;
+        if (isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow");
+        }
+        T result = rb[first++];
+        if (first == rb.length) {
+            first = 0;
+        }
+        fillCount--;
+        return result;
     }
 
     /**
      * Return oldest item, but don't remove it. If the buffer is empty, then
      * throw new RuntimeException("Ring buffer underflow").
      */
+    @Override
     public T peek() {
-        // TODO: Return the first item. None of your instance variables should
-        //       change.
-        return null;
+        if (isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow");
+        }
+        return rb[first];
+    }
+    /**
+     *  Return size of the buffer
+     */
+    public int capacity() {
+        return rb.length;
     }
 
-    // TODO: When you get to part 4, implement the needed code to support
-    //       iteration and equals.
+    /**
+     *  Return number of items currently in the buffer
+     */
+    public int fillCount() {
+        return fillCount;
+    }
+
+    private class ArrayRingBUfferIterator implements Iterator<T> {
+        private int count;
+        public ArrayRingBUfferIterator() { count = 0; }
+        public boolean hasNext() {
+            return count != fillCount;
+        }
+        public T next() {
+            int curIndex = (first + count) % rb.length;
+            T result = rb[curIndex];
+            count++;
+            return result;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayRingBUfferIterator();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArrayRingBuffer<?> that = (ArrayRingBuffer<?>) o;
+        if (fillCount != that.fillCount) {
+            return false;
+        }
+        Iterator<T> thisIterator = this.iterator();
+        Iterator<?> otherIterator = that.iterator();
+        while (thisIterator.hasNext()) {
+            T thisValue = thisIterator.next();
+            T otherValue = (T) otherIterator.next();
+            if (!thisValue.equals(otherValue)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(first, last, fillCount);
+        result = 31 * result + Arrays.hashCode(rb);
+        return result;
+    }
 }
-    // TODO: Remove all comments that say TODO when you're done.
+
