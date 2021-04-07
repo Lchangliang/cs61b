@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private int[][] grid;
-    WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf;
     private int[] dx = {-1, 0, 0 ,1};
     private int[] dy = {0, -1, 1, 0};
 
@@ -75,7 +75,7 @@ public class Percolation {
     /* does the system percolate? */
     public boolean percolates() {
         for (int col = 0; col < grid.length; col++) {
-            if (uf.connected((int) Math.pow(grid.length, 2), (grid.length-1) * grid.length-1 + col)) {
+            if (uf.connected((int) Math.pow(grid.length, 2), (grid.length-1) * grid.length + col)) {
                 return true;
             }
         }
@@ -84,6 +84,12 @@ public class Percolation {
 
     /* use for unit testing (not required, but keep this here for the autograder) */
     public static void main(String[] args) {
-
+        Percolation p = new Percolation(6);
+        p.open(0, 5);
+        p.open(1, 5);
+        p.open(2, 5);
+        p.open(3, 5);
+        p.open(4, 5);
+        System.out.println(p.percolates());
     }
 }
