@@ -5,10 +5,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private int[][] grid;
-    private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF percolateUf;
+    private WeightedQuickUnionUF fullUf;
     private int[] dx = {-1, 0, 0 ,1};
     private int[] dy = {0, -1, 1, 0};
-    private boolean isPercolate = false;
     private int number = 0;
     /* create N-by-N grid, with all sites initially blocked */
     public Percolation(int N)    {
@@ -21,7 +21,8 @@ public class Percolation {
                 grid[i][j] = 0;
             }
         }
-        uf = new WeightedQuickUnionUF(N * N + 2);
+        percolateUf = new WeightedQuickUnionUF(N * N + 2);
+        fullUf = new WeightedQuickUnionUF(N * N + 1);
     }
 
     private void checkIndex(int row, int col) {
@@ -34,24 +35,25 @@ public class Percolation {
 
     /* open the site (row, col) if it is not open already */
     public void open(int row, int col) {
-        checkIndex(row, col);
+        if (isOpen(row, col)) {
+            return ;
+        }
+        grid[row][col] = 1;
+        number++;
         if (row == 0) {
-            uf.union((int) Math.pow(grid.length, 2), row * grid.length + col);
+            percolateUf.union((int) Math.pow(grid.length, 2), row * grid.length + col);
+            fullUf.union((int) Math.pow(grid.length, 2), row * grid.length + col);
         }
         if (row == grid.length-1) {
-            uf.union((int) Math.pow(grid.length, 2) + 1, row * grid.length + col);
+            percolateUf.union((int) Math.pow(grid.length, 2) + 1, row * grid.length + col);
         }
         for (int i = 0; i < 4; i++) {
             int newRow = row + dx[i];
             int newCol = col + dy[i];
-            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid.length && grid[newRow][newCol] == 1) {
-                uf.union(row * grid.length + col, newRow * grid.length + newCol);
+            if (newRow >= 0 && newRow < grid.length && newCol >= 0 && newCol < grid.length && grid[newRow][newCol] > 0) {
+                percolateUf.union(row * grid.length + col, newRow * grid.length + newCol);
+                fullUf.union(row * grid.length + col, newRow * grid.length + newCol);
             }
-        }
-        grid[row][col] = 1;
-        number++;
-        if (uf.connected((int) Math.pow(grid.length, 2) + 1, (int) Math.pow(grid.length, 2))) {
-            isPercolate = true;
         }
     }
 
@@ -64,7 +66,7 @@ public class Percolation {
     /* is the site (row, col) full? */
     public boolean isFull(int row, int col) {
         checkIndex(row, col);
-        return uf.connected(row * grid.length + col, (int) Math.pow(grid.length, 2));
+        return fullUf.connected(row * grid.length + col, (int) Math.pow(grid.length, 2));
     }
 
     /* number of open sites */
@@ -74,16 +76,16 @@ public class Percolation {
 
     /* does the system percolate? */
     public boolean percolates() {
-        return isPercolate;
+        return percolateUf.connected((int) Math.pow(grid.length, 2) + 1, (int) Math.pow(grid.length, 2));
     }
 
     /* use for unit testing (not required, but keep this here for the autograder) */
     public static void main(String[] args) {
-        Percolation p = new Percolation(4);
-        p.open(3, 0);
+        Percolation p = new Percolation(3);
+        p.open(0, 2);
+        p.open(1, 2);
+        p.open(2, 2);
         p.open(2, 0);
-        p.open(1, 0);
-        p.open(0, 0);
-        System.out.println(p.percolates());
+        System.out.println(p.isFull(2, 0));
     }
 }
