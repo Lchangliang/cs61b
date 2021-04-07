@@ -8,7 +8,8 @@ public class Percolation {
     private WeightedQuickUnionUF uf;
     private int[] dx = {-1, 0, 0 ,1};
     private int[] dy = {0, -1, 1, 0};
-
+    private boolean isPercolate = false;
+    private int number = 0;
     /* create N-by-N grid, with all sites initially blocked */
     public Percolation(int N)    {
         if (N <= 0) {
@@ -45,6 +46,10 @@ public class Percolation {
             }
         }
         grid[row][col] = 1;
+        number++;
+        if (row == grid.length-1 && uf.connected(row * grid.length + col, (int) Math.pow(grid.length, 2))) {
+            isPercolate = true;
+        }
     }
 
     /* is the site (row, col) open? */
@@ -61,25 +66,12 @@ public class Percolation {
 
     /* number of open sites */
     public int numberOfOpenSites() {
-        int number = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
-                if (grid[i][j] == 1) {
-                    number++;
-                }
-            }
-        }
         return number;
     }
 
     /* does the system percolate? */
     public boolean percolates() {
-        for (int col = 0; col < grid.length; col++) {
-            if (uf.connected((int) Math.pow(grid.length, 2), (grid.length-1) * grid.length + col)) {
-                return true;
-            }
-        }
-        return false;
+        return isPercolate;
     }
 
     /* use for unit testing (not required, but keep this here for the autograder) */
