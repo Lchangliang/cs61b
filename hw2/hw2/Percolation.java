@@ -21,7 +21,7 @@ public class Percolation {
                 grid[i][j] = 0;
             }
         }
-        uf = new WeightedQuickUnionUF(N * N + 1);
+        uf = new WeightedQuickUnionUF(N * N + 2);
     }
 
     private void checkIndex(int row, int col) {
@@ -38,6 +38,9 @@ public class Percolation {
         if (row == 0) {
             uf.union((int) Math.pow(grid.length, 2), row * grid.length + col);
         }
+        if (row == grid.length-1) {
+            uf.union((int) Math.pow(grid.length, 2) + 1, row * grid.length + col);
+        }
         for (int i = 0; i < 4; i++) {
             int newRow = row + dx[i];
             int newCol = col + dy[i];
@@ -47,7 +50,7 @@ public class Percolation {
         }
         grid[row][col] = 1;
         number++;
-        if (row == grid.length-1 && uf.connected(row * grid.length + col, (int) Math.pow(grid.length, 2))) {
+        if (uf.connected((int) Math.pow(grid.length, 2) + 1, (int) Math.pow(grid.length, 2))) {
             isPercolate = true;
         }
     }
@@ -76,12 +79,11 @@ public class Percolation {
 
     /* use for unit testing (not required, but keep this here for the autograder) */
     public static void main(String[] args) {
-        Percolation p = new Percolation(6);
-        p.open(0, 5);
-        p.open(1, 5);
-        p.open(2, 5);
-        p.open(3, 5);
-        p.open(4, 5);
+        Percolation p = new Percolation(4);
+        p.open(3, 0);
+        p.open(2, 0);
+        p.open(1, 0);
+        p.open(0, 0);
         System.out.println(p.percolates());
     }
 }
