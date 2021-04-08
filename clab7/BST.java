@@ -1,4 +1,6 @@
 import java.util.NoSuchElementException;
+import java.util.List;
+import java.util.ArrayList;
 
 /*  @author Josh Hug, with most code created by:
  *  @author Robert Sedgewick
@@ -245,5 +247,37 @@ public class BST<Key extends Comparable<Key>> {
      */
     private boolean isEmpty() {
         return size() == 0;
+    }
+
+    public int actualIPL() {
+        int depth = 0;
+        int AIPL = 0;
+        List<Node> list = new ArrayList<>();
+        list.add(root);
+        int sum = 1;
+        int newSum = 0;
+        while(!list.isEmpty()) {
+            Node cur = list.remove(0);
+            sum--;
+            AIPL += depth;
+            if (cur.left != null) {
+                list.add(cur.left);
+                newSum++;
+            }
+            if (cur.right != null) {
+                list.add(cur.right);
+                newSum++;
+            }
+            if (sum == 0) {
+                depth++;
+                sum = newSum;
+                newSum = 0;
+            }
+        }
+        return AIPL;
+    }
+
+    public double actualAverageDepth() {
+        return (double) actualIPL() / size();
     }
 }
