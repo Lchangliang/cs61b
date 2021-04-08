@@ -32,7 +32,14 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            return Objects.hash(red / 5, green / 5, blue / 5);
+            int newRed = red / 5;
+            int newGreen = green / 5;
+            int newBlue = blue / 5;
+            int result = 0;
+            result += red * 255;
+            result += green * 255;
+            result += blue * 255;
+            return result;
         }
     }
 
