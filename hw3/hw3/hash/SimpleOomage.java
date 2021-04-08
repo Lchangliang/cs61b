@@ -36,9 +36,9 @@ public class SimpleOomage implements Oomage {
             int newGreen = green / 5;
             int newBlue = blue / 5;
             int result = 0;
-            result += red * 255;
-            result += green * 255;
-            result += blue * 255;
+            result += result * 255 + newRed;
+            result += result * 255 + newGreen;
+            result += result * 255 + newBlue;
             return result;
         }
     }
@@ -68,15 +68,22 @@ public class SimpleOomage implements Oomage {
         return new SimpleOomage(red, green, blue);
     }
 
-    public static void main(String[] args) {
-        System.out.println("Drawing 4 random simple Oomages.");
-        randomSimpleOomage().draw(0.25, 0.25, 1);
-        randomSimpleOomage().draw(0.75, 0.75, 1);
-        randomSimpleOomage().draw(0.25, 0.75, 1);
-        randomSimpleOomage().draw(0.75, 0.25, 1);
-    }
+//    public static void main(String[] args) {
+//        System.out.println("Drawing 4 random simple Oomages.");
+//        randomSimpleOomage().draw(0.25, 0.25, 1);
+//        randomSimpleOomage().draw(0.75, 0.75, 1);
+//        randomSimpleOomage().draw(0.25, 0.75, 1);
+//        randomSimpleOomage().draw(0.75, 0.25, 1);
+//    }
 
     public String toString() {
         return "R: " + red + ", G: " + green + ", B: " + blue;
+    }
+
+    public static void main(String[] args) {
+        SimpleOomage o1 = new SimpleOomage(0, 0, 155);
+        SimpleOomage o2 = new SimpleOomage(0, 5, 0);
+        System.out.println(o1.hashCode());
+        System.out.println(o2.hashCode());
     }
 } 
