@@ -26,17 +26,12 @@ public class InsertInOrderSpeedTest {
 
         String repeat = "y";
         do {
-            System.out.print("\nEnter # strings to insert into ULLMap: ");
-            timeInOrderMap61B(new ULLMap<String, Integer>(), 
-                              i.waitForPositiveInt(input));
-       
-            System.out.print("\nEnter # strings to insert into MyHashMap: ");
-            timeInOrderMap61B(new MyHashMap<String, Integer>(), 
-                              i.waitForPositiveInt(input));
-    
-            System.out.print("\nEnter # strings to insert into Java's HashMap: ");
-            timeInOrderHashMap(new HashMap<String, Integer>(), 
-                              i.waitForPositiveInt(input));                        
+            System.out.print("\nEnter # strings to insert:  ");
+            int n = i.waitForPositiveInt(input);
+
+            timeInOrderMap61B(new ULLMap<String, Integer>(), n);
+            timeInOrderMap61B(new MyHashMap<String, Integer>(), n);
+            timeInOrderHashMap(new HashMap<String, Integer>(), n);
 
             System.out.print("\nWould you like to try more timed-tests? (y/n): ");
             repeat = input.nextLine();

@@ -25,17 +25,12 @@ public class InsertRandomSpeedTest {
 
         String repeat = "y";
         do {
-            System.out.print("\nEnter # strings to insert into ULLMap: ");
-            timeRandomMap61B(new ULLMap<String, Integer>(), 
-                            waitForPositiveInt(input), L);
+            System.out.print("\nEnter # strings to insert:  ");
+            int n = waitForPositiveInt(input);
 
-            System.out.print("\nEnter # strings to insert into your MyHashMap: ");
-            timeRandomMap61B(new MyHashMap<String, Integer>(), 
-                            waitForPositiveInt(input), L);
-
-            System.out.print("\nEnter # strings to insert into Java's HashMap: ");
-            timeRandomHashMap(new HashMap<String, Integer>(), 
-                            waitForPositiveInt(input), L);
+            timeRandomMap61B(new ULLMap<String, Integer>(), n, L);
+            timeRandomMap61B(new MyHashMap<String, Integer>(), n, L);
+            timeRandomHashMap(new HashMap<String, Integer>(), n, L);
 
             System.out.print("\nWould you like to try more timed-tests? (y/n)");
             repeat = input.nextLine();
