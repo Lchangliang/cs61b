@@ -13,14 +13,12 @@ class RollingString{
      * Number of total possible int values a character can take on.
      * DO NOT CHANGE THIS.
      */
-//    static final int UNIQUECHARS = 128;
-    static final int UNIQUECHARS = 256;
+    static final int UNIQUECHARS = 128;
     /**
      * The prime base that we are using as our mod space. Happens to be 61B. :)
      * DO NOT CHANGE THIS.
      */
-//    static final int PRIMEBASE = 6113;
-    static final int PRIMEBASE = 101;
+    static final int PRIMEBASE = 6113;
     /**
      * Initializes a RollingString with a current value of String s.
      * s must be the same length as the maximum length.
