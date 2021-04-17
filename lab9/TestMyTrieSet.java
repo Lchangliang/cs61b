@@ -54,6 +54,18 @@ public class TestMyTrieSet {
         }
     }
 
+    @Test
+    public void sanityLongestPrefixTest() {
+        String[] saStrings = new String[]{"a", "abc", "abcd"};
+
+        MyTrieSet t = new MyTrieSet();
+        for (String s: saStrings) {
+            t.add(s);
+        }
+
+        assertEquals("abcd", t.longestPrefixOf("abcdef"));
+    }
+
     public static void main(String[] args) {
         jh61b.junit.TestRunner.runTests(TestMyTrieSet.class);
     }
